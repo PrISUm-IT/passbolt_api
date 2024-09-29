@@ -175,9 +175,11 @@ class GpgkeysTable extends Table
      */
     public function findIndex(Query $query, array $options): Query
     {
+        var_dump($options);
         if (isset($options['filter']['modified-after'])) {
+            var_dump($options['filter']['modified-after']);
             $modified = new FrozenTime($options['filter']['modified-after']);
-            $query->where(['modified >' => $modified->i18nFormat('yyyy-MM-dd HH:mm:ss')]);
+            $query->where(['modified >' => $modified->i18nFormat('yyyy-MM-dd HH:mm:ss', date_default_timezone_get())]);
         }
 
         $query->where(['deleted' => $options['filter']['is-deleted'] ?? false]);
